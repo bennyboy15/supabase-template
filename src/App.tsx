@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './utils/supabase'
+import './index.css'
 
 interface ItemType {
   id: number,
@@ -23,7 +24,7 @@ export default function App() {
   }, [])
 
   return (
-    <ul>
+    <ul className='bg-red-500'>
       {items.map((i) => (
         <li key={i.id}>{i.name}</li>
       ))}
