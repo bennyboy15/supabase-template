@@ -1,33 +1,20 @@
-import { useState, useEffect } from 'react'
-import { supabase } from './utils/supabase'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/auth/LoginPage'
+import SignupPage from './pages/auth/SignupPage'
+import ProtectedRoute from './components/ProtectedRoute'
 import './index.css'
 
-interface ItemType {
-  id: number,
-  created_at: string,
-  name: string
-}
-
 export default function App() {
-  const [items, setItems] = useState<ItemType[]>([])
-
-  useEffect(() => {
-    async function getTodos() {
-      const { data: items } = await supabase.from('test').select()
-
-      if (items) {
-        setItems(items)
-      }
-    }
-
-    getTodos()
-  }, [])
-
   return (
-    <ul className='bg-red-500'>
-      {items.map((i) => (
-        <li key={i.id}>{i.name}</li>
-      ))}
-    </ul>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<ProtectedRoute />}>
+          <Route index element={<HomePage />} />
+        </Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
