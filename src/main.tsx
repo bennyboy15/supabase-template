@@ -3,14 +3,17 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Toaster } from "react-hot-toast"
+import { SessionProvider } from "./contexts/session.context.tsx"
 
 const client = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={client}>
-      <App />
-      <Toaster />
+      <SessionProvider>
+        <App />
+        <Toaster />
+      </SessionProvider>
     </QueryClientProvider>
   </StrictMode>,
 )
