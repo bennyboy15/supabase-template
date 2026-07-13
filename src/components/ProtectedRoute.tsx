@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useSession } from '../hooks/session.hooks'
+import { useSession } from '@/hooks/session.hooks'
 
 function ProtectedRoute() {
   const { session, isLoading } = useSession()

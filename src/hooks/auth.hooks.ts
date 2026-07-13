@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login, logout, signup } from "../utils/supabase";
+import { login, logout, signup } from "@/utils/supabase";
 import toast from "react-hot-toast";
 
 export function useAuthSignup() {

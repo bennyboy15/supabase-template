@@ -1,7 +1,7 @@
-import { useAuthLogin } from "../../hooks/auth.hooks";
+import { useAuthLogin } from "@/hooks/auth.hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { UserSchema, type AuthEmailCredentialsType } from "../../schemas/auth.schemas";
+import { LoginSchema, type LoginCredentialsType } from "@/schemas/auth.schemas";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -14,9 +14,9 @@ function LoginPage() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<AuthEmailCredentialsType>({ resolver: zodResolver(UserSchema) });
+    } = useForm<LoginCredentialsType>({ resolver: zodResolver(LoginSchema) });
 
-    const onSubmit: SubmitHandler<AuthEmailCredentialsType> = (data) => {
+    const onSubmit: SubmitHandler<LoginCredentialsType> = (data) => {
         login(data, { onSuccess: () => navigate(from, { replace: true }) });
     };
 

@@ -1,13 +1,19 @@
 import { createClient } from "@supabase/supabase-js";
-import type { AuthEmailCredentialsType } from "../schemas/auth.schemas";
+import type { LoginCredentialsType } from "@/schemas/auth.schemas";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+    throw new Error(
+        "Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY — copy .env.example to .env and fill in your project's values"
+    );
+}
+
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
 // -- AUTH --
-export async function signup(user: AuthEmailCredentialsType) {
+export async function signup(user: LoginCredentialsType) {
     const { data, error } = await supabase.auth.signUp({
         email: user.email,
         password: user.password,
@@ -22,7 +28,7 @@ export async function signup(user: AuthEmailCredentialsType) {
     return data;
 }
 
-export async function login(user: AuthEmailCredentialsType) {
+export async function login(user: LoginCredentialsType) {
     const { data, error } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: user.password,

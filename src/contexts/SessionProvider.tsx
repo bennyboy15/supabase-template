@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { supabase } from "../utils/supabase";
-import { SessionContext } from "./session.context";
+import { supabase } from "@/utils/supabase";
+import { SessionContext } from "@/contexts/session.context";
 
 export function SessionProvider({ children }: { children: ReactNode }) {
     const [session, setSession] = useState<Session | null>(null);

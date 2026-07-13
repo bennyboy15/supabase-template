@@ -1,7 +1,7 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useAuthSignup } from "../../hooks/auth.hooks";
+import { useAuthSignup } from "@/hooks/auth.hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserSchema, type AuthEmailCredentialsType } from "../../schemas/auth.schemas";
+import { SignupSchema, type SignupCredentialsType } from "@/schemas/auth.schemas";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignupPage() {
@@ -11,9 +11,9 @@ function SignupPage() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<AuthEmailCredentialsType>({ resolver: zodResolver(UserSchema) });
+    } = useForm<SignupCredentialsType>({ resolver: zodResolver(SignupSchema) });
 
-    const onSubmit: SubmitHandler<AuthEmailCredentialsType> = (data) => {
+    const onSubmit: SubmitHandler<SignupCredentialsType> = (data) => {
         signup(data, {
             // No session means email confirmation is required, so the user
             // can't enter the app yet — send them to the login page instead
@@ -30,6 +30,8 @@ function SignupPage() {
                 {errors.email && <p role="alert">{errors.email.message}</p>}
                 <input type="password" {...register("password")} placeholder="password123" />
                 {errors.password && <p role="alert">{errors.password.message}</p>}
+                <input type="password" {...register("confirmPassword")} placeholder="confirm password" />
+                {errors.confirmPassword && <p role="alert">{errors.confirmPassword.message}</p>}
                 <button type="submit" disabled={isPending}>
                     {isPending ? "SIGNING UP..." : "SIGN UP"}
                 </button>

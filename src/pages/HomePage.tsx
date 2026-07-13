@@ -1,11 +1,13 @@
-import { useAuthLogout } from "../hooks/auth.hooks";
+import { useAuthLogout } from "@/hooks/auth.hooks";
 
 function HomePage() {
-    const { mutate: logout } = useAuthLogout();
+    const { mutate: logout, isPending } = useAuthLogout();
     return (
         <div>
             <div>HomePage</div>
-            <button onClick={() => logout()}>LOGOUT</button>
+            <button onClick={() => logout()} disabled={isPending}>
+                {isPending ? "LOGGING OUT..." : "LOGOUT"}
+            </button>
         </div>
     );
 }
