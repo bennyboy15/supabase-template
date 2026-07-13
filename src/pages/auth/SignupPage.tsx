@@ -1,13 +1,14 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAuthSignup } from "../../hooks/auth.hooks";
-import type { AuthEmailCredentialsType } from "../../types/auth.types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserSchema, type AuthEmailCredentialsType } from "../../schemas/auth.schemas";
 
 function SignupPage() {
     const { mutate: signup } = useAuthSignup();
-    const { register, handleSubmit, } = useForm<AuthEmailCredentialsType>()
+    const { register, handleSubmit } = useForm<AuthEmailCredentialsType>({ resolver: zodResolver(UserSchema) });
     const onSubmit: SubmitHandler<AuthEmailCredentialsType> = (data) => {
         signup(data);
-    }
+    };
 
     return (
         <div>
@@ -18,7 +19,7 @@ function SignupPage() {
                 <button type="submit">SIGN UP</button>
             </form>
         </div>
-    )
+    );
 }
 
-export default SignupPage
+export default SignupPage;
