@@ -1,29 +1,40 @@
 import { useAuthLogin } from "../../hooks/auth.hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type SubmitErrorHandler, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { UserSchema, type AuthEmailCredentialsType } from "../../schemas/auth.schemas";
-import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function LoginPage() {
-    const { mutate: login } = useAuthLogin();
-    const { register, handleSubmit } = useForm<AuthEmailCredentialsType>({ resolver: zodResolver(UserSchema) });
+    const { mutate: login, isPending } = useAuthLogin();
+    const navigate = useNavigate();
+    const location = useLocation();
+    // Where ProtectedRoute bounced the user from, if anywhere
+    const from = location.state?.from?.pathname ?? "/";
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<AuthEmailCredentialsType>({ resolver: zodResolver(UserSchema) });
+
     const onSubmit: SubmitHandler<AuthEmailCredentialsType> = (data) => {
-        login(data);
-    };
-    const onInvalid: SubmitErrorHandler<AuthEmailCredentialsType> = (errors) => {
-        Object.values(errors).forEach((error) => {
-            if (error?.message) toast.error(error.message);
-        });
+        login(data, { onSuccess: () => navigate(from, { replace: true }) });
     };
 
     return (
         <div>
             <div>LoginPage</div>
-            <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <input type="email" {...register("email")} placeholder="example@email.com" />
+                {errors.email && <p role="alert">{errors.email.message}</p>}
                 <input type="password" {...register("password")} placeholder="password123" />
-                <button type="submit">LOGIN</button>
+                {errors.password && <p role="alert">{errors.password.message}</p>}
+                <button type="submit" disabled={isPending}>
+                    {isPending ? "LOGGING IN..." : "LOGIN"}
+                </button>
             </form>
+            <p>
+                Don't have an account? <Link to="/signup">Sign up</Link>
+            </p>
         </div>
     );
 }

@@ -5,8 +5,12 @@ import toast from "react-hot-toast";
 export function useAuthSignup() {
     return useMutation({
         mutationFn: signup,
-        onSuccess: () => {
-            toast.success("Successfully signed up");
+        onSuccess: (data) => {
+            if (data.session) {
+                toast.success("Successfully signed up");
+            } else {
+                toast.success("Check your email to confirm your account");
+            }
         },
         onError: (error:Error) => {
             toast.error(error.message);

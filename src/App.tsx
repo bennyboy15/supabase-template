@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/auth/LoginPage'
 import SignupPage from './pages/auth/SignupPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import GuestRoute from './components/GuestRoute'
 import './index.css'
 
 export default function App() {
@@ -12,8 +13,10 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route index element={<HomePage />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route element={<GuestRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

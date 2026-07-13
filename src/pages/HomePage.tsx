@@ -1,8 +1,13 @@
+import { useAuthLogout } from "../hooks/auth.hooks";
 
 function HomePage() {
+    const { mutate: logout } = useAuthLogout();
     return (
-        <div>HomePage</div>
-    )
+        <div>
+            <div>HomePage</div>
+            <button onClick={() => logout()}>LOGOUT</button>
+        </div>
+    );
 }
 
-export default HomePage
+export default HomePage;
