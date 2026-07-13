@@ -1,24 +1,10 @@
 import { useAuthLogout } from "@/hooks/auth.hooks";
-import type { TestType } from "@/types/test.types";
-import { supabase } from "@/utils/supabase";
-import { useEffect, useState } from "react";
+import { useTestItems } from "@/hooks/test.hooks";
 
 function HomePage() {
 
     const { mutate: logout, isPending } = useAuthLogout();
-    const [tests, setTests] = useState<TestType[]>([]);
-
-    useEffect(() => {
-        async function getTestItems() {
-            const { data: testItems } = await supabase.from('test').select();
-
-            if (testItems) {
-                setTests(testItems)
-            }
-        }
-
-        getTestItems()
-    }, [])
+    const { data: tests, isLoading, error } = useTestItems();
 
     return (
         <div>
@@ -26,8 +12,10 @@ function HomePage() {
             <button onClick={() => logout()} disabled={isPending}>
                 {isPending ? "LOGGING OUT..." : "LOGOUT"}
             </button>
+            {isLoading && <p>Loading test items...</p>}
+            {error && <p role="alert">Failed to load test items: {error.message}</p>}
             <ul>
-                {tests?.map((t: TestType) => (
+                {tests?.map((t) => (
                     <li key={t.id}>{t.name}</li>
                 ))}
             </ul>

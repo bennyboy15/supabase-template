@@ -32,7 +32,15 @@ This is a template for projects using Supabase.
    cp .env.example .env
    ```
 
-4. Start the dev server:
+4. Link the Supabase CLI to your project and apply the migrations (creates the demo `test` table, including its RLS policy):
+
+   ```sh
+   npx supabase login
+   npx supabase link --project-ref <your-project-ref>
+   npx supabase db push
+   ```
+
+5. Start the dev server:
 
    ```sh
    npm run dev
@@ -47,9 +55,12 @@ This is a template for projects using Supabase.
 | `npm run preview` | Preview the production build |
 | `npm run lint` | Run ESLint |
 | `npm run typecheck` | Run the TypeScript compiler |
+| `npm run gen:types` | Regenerate `src/types/database.types.ts` from the linked project |
 
 ## Notes
 
 - Auth pages live in `src/pages/auth/`, route guards in `src/components/`.
 - API calls go in `src/utils/supabase.ts`; wrap them in React Query hooks (`src/hooks/`).
 - Zod schemas live in `src/schemas/` and plug into forms via `@hookform/resolvers`.
+- Database changes go in `supabase/migrations/`; apply them with `npx supabase db push`, then run `npm run gen:types` to update the generated types.
+- Remember RLS: a table with row level security enabled but no SELECT policy returns zero rows without an error.

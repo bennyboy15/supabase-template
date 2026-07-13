@@ -2,22 +2,20 @@ import { useAuthLogin } from "@/hooks/auth.hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { LoginSchema, type LoginCredentialsType } from "@/schemas/auth.schemas";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
     const { mutate: login, isPending } = useAuthLogin();
-    const navigate = useNavigate();
-    const location = useLocation();
-    // Where ProtectedRoute bounced the user from, if anywhere
-    const from = location.state?.from?.pathname ?? "/";
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginCredentialsType>({ resolver: zodResolver(LoginSchema) });
 
+    // No navigation on success: once the session lands, GuestRoute
+    // redirects to the page ProtectedRoute bounced the user from
     const onSubmit: SubmitHandler<LoginCredentialsType> = (data) => {
-        login(data, { onSuccess: () => navigate(from, { replace: true }) });
+        login(data);
     };
 
     return (
