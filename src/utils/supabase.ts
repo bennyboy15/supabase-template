@@ -1,7 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
-import type { LoginCredentialsType, SignupCredentialsType } from "@/schemas/auth.schemas";
+import type {
+    ForgotPasswordType,
+    LoginCredentialsType,
+    SignupCredentialsType,
+    UpdatePasswordType,
+} from "@/schemas/auth.schemas";
 import type { Database } from "@/types/database.types";
-import type { TestType } from "@/types/test.types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -45,9 +49,17 @@ export async function logout() {
     return;
 }
 
-// -- TEST --
-export async function getTestItems(): Promise<TestType[]> {
-    const { data, error } = await supabase.from("test").select();
+export async function resetPassword({ email }: ForgotPasswordType) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/update-password`,
+    });
+
+    if (error) throw error;
+    return;
+}
+
+export async function updatePassword({ password }: UpdatePasswordType) {
+    const { data, error } = await supabase.auth.updateUser({ password });
 
     if (error) throw error;
     return data;

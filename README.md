@@ -4,7 +4,7 @@ This is a template for projects using Supabase.
 
 ## Includes
 
-- Supabase client + email/password auth (signup, login, logout)
+- Supabase client + email/password auth (signup, login, logout, password reset)
 - Protected & guest-only routes with post-login redirect
 - Session context provider
 - Tailwind CSS
@@ -41,7 +41,15 @@ This is a template for projects using Supabase.
     npx supabase db push
     ```
 
-5. Start the dev server:
+5. Allow the password-reset redirect URL (Dashboard → Authentication → URL Configuration → Redirect URLs). Without it, reset emails silently redirect to the Site URL instead of the update-password page:
+
+    ```
+    http://localhost:5173/update-password
+    ```
+
+    Add your production equivalent (e.g. `https://yourapp.com/update-password`) when you deploy.
+
+6. Start the dev server:
 
     ```sh
     npm run dev

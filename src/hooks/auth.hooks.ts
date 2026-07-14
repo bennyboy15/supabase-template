@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login, logout, signup } from "@/utils/supabase";
+import { useMutation } from "@tanstack/react-query";
+import { login, logout, resetPassword, signup, updatePassword } from "@/utils/supabase";
 import toast from "react-hot-toast";
 
 export function useAuthSignup() {
@@ -31,12 +31,34 @@ export function useAuthLogin() {
 }
 
 export function useAuthLogout() {
-    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            queryClient.clear();
             toast.success("Successfully logged out");
+        },
+        onError: (error: Error) => {
+            toast.error(error.message);
+        },
+    });
+}
+
+export function useAuthResetPassword() {
+    return useMutation({
+        mutationFn: resetPassword,
+        onSuccess: () => {
+            toast.success("Check your email for a password reset link");
+        },
+        onError: (error: Error) => {
+            toast.error(error.message);
+        },
+    });
+}
+
+export function useAuthUpdatePassword() {
+    return useMutation({
+        mutationFn: updatePassword,
+        onSuccess: () => {
+            toast.success("Password updated");
         },
         onError: (error: Error) => {
             toast.error(error.message);

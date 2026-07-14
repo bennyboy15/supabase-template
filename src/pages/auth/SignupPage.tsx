@@ -15,9 +15,6 @@ function SignupPage() {
 
     const onSubmit: SubmitHandler<SignupCredentialsType> = (data) => {
         signup(data, {
-            // With a session, GuestRoute redirects into the app on its own.
-            // No session means email confirmation is required, so the user
-            // can't enter the app yet — send them to the login page instead
             onSuccess: (result) => {
                 if (!result.session) navigate("/login", { replace: true });
             },
