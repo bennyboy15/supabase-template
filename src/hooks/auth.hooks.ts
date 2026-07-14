@@ -12,10 +12,10 @@ export function useAuthSignup() {
                 toast.success("Check your email to confirm your account");
             }
         },
-        onError: (error:Error) => {
+        onError: (error: Error) => {
             toast.error(error.message);
-        }
-    })
+        },
+    });
 }
 
 export function useAuthLogin() {
@@ -24,10 +24,10 @@ export function useAuthLogin() {
         onSuccess: () => {
             toast.success("Successfully logged in");
         },
-        onError: (error:Error) => {
+        onError: (error: Error) => {
             toast.error(error.message);
-        }
-    })
+        },
+    });
 }
 
 export function useAuthLogout() {
@@ -38,9 +38,8 @@ export function useAuthLogout() {
             queryClient.clear();
             toast.success("Successfully logged out");
         },
-        onError: (error:Error) => {
+        onError: (error: Error) => {
             toast.error(error.message);
-        }
-    })
+        },
+    });
 }
-

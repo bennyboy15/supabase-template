@@ -12,8 +12,6 @@ function LoginPage() {
         formState: { errors },
     } = useForm<LoginCredentialsType>({ resolver: zodResolver(LoginSchema) });
 
-    // No navigation on success: once the session lands, GuestRoute
-    // redirects to the page ProtectedRoute bounced the user from
     const onSubmit: SubmitHandler<LoginCredentialsType> = (data) => {
         login(data);
     };

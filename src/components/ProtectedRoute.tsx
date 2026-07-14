@@ -1,19 +1,19 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useSession } from '@/hooks/session.hooks'
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useSession } from "@/hooks/session.hooks";
 
 function ProtectedRoute() {
-  const { session, isLoading } = useSession()
-  const location = useLocation()
+    const { session, isLoading } = useSession();
+    const location = useLocation();
 
-  if (isLoading) {
-    return null
-  }
+    if (isLoading) {
+        return null;
+    }
 
-  if (!session) {
-    return <Navigate to="/login" replace state={{ from: location }} />
-  }
+    if (!session) {
+        return <Navigate to="/login" replace state={{ from: location }} />;
+    }
 
-  return <Outlet />
+    return <Outlet />;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

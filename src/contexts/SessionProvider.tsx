@@ -14,16 +14,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
             setIsLoading(false);
         });
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (_event, session) => setSession(session)
-        );
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
 
         return () => subscription.unsubscribe();
     }, []);
 
     return (
-        <SessionContext.Provider value={{ session, isLoading }}>
-            {children}
-        </SessionContext.Provider>
-    )
+        <SessionContext.Provider value={{ session, isLoading }}>{children}</SessionContext.Provider>
+    );
 }

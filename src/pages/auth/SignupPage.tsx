@@ -32,7 +32,11 @@ function SignupPage() {
                 {errors.email && <p role="alert">{errors.email.message}</p>}
                 <input type="password" {...register("password")} placeholder="password123" />
                 {errors.password && <p role="alert">{errors.password.message}</p>}
-                <input type="password" {...register("confirmPassword")} placeholder="confirm password" />
+                <input
+                    type="password"
+                    {...register("confirmPassword")}
+                    placeholder="confirm password"
+                />
                 {errors.confirmPassword && <p role="alert">{errors.confirmPassword.message}</p>}
                 <button type="submit" disabled={isPending}>
                     {isPending ? "SIGNING UP..." : "SIGN UP"}

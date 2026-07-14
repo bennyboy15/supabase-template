@@ -7,7 +7,7 @@ export const LoginSchema = z.object({
 
 export const SignupSchema = LoginSchema.extend({
     confirmPassword: z.string(),
-    password: z.string().min(6, "Password must be at least 6 characters")
+    password: z.string().min(6, "Password must be at least 6 characters"),
 }).refine((data) => data.password === data.confirmPassword, {
     error: "Passwords do not match",
     path: ["confirmPassword"],
