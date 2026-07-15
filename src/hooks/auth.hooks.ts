@@ -2,6 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { login, logout, resetPassword, signup, updatePassword } from "@/utils/supabase";
 import toast from "react-hot-toast";
 
+// Mutation errors are toasted globally via the QueryClient's MutationCache (src/main.tsx)
+
 export function useAuthSignup() {
     return useMutation({
         mutationFn: signup,
@@ -12,9 +14,6 @@ export function useAuthSignup() {
                 toast.success("Check your email to confirm your account");
             }
         },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
     });
 }
 
@@ -23,9 +22,6 @@ export function useAuthLogin() {
         mutationFn: login,
         onSuccess: () => {
             toast.success("Successfully logged in");
-        },
-        onError: (error: Error) => {
-            toast.error(error.message);
         },
     });
 }
@@ -36,9 +32,6 @@ export function useAuthLogout() {
         onSuccess: () => {
             toast.success("Successfully logged out");
         },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
     });
 }
 
@@ -48,9 +41,6 @@ export function useAuthResetPassword() {
         onSuccess: () => {
             toast.success("Check your email for a password reset link");
         },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
     });
 }
 
@@ -59,9 +49,6 @@ export function useAuthUpdatePassword() {
         mutationFn: updatePassword,
         onSuccess: () => {
             toast.success("Password updated");
-        },
-        onError: (error: Error) => {
-            toast.error(error.message);
         },
     });
 }

@@ -6,7 +6,4 @@ export interface SessionContextType {
     isLoading: boolean;
 }
 
-export const SessionContext = createContext<SessionContextType>({
-    session: null,
-    isLoading: true,
-});
+export const SessionContext = createContext<SessionContextType | null>(null);
